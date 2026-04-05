@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <IsPackable>true</IsPackable>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>StructuredLogging.Analyzers</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>StructuredLogging</Authors>
+    <Description>Structured logging Roslyn analyzers.</Description>
+    <PackageTags>roslyn;analyzer;structured-logging;serilog;microsoft-extensions-logging</PackageTags>
+    <DevelopmentDependency>true</DevelopmentDependency>
+    <NoWarn>NU5128</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\StructuredLogging.Analyzers\StructuredLogging.Analyzers.csproj" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\StructuredLogging.Analyzers\bin\$(Configuration)\netstandard2.0\StructuredLogging.Analyzers.dll"
+          Pack="true"
+          PackagePath="analyzers/dotnet/cs" />
+  </ItemGroup>
+
+</Project>

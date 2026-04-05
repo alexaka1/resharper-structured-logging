@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="StructuredLogging.Analyzers.Package/StructuredLogging.Analyzers.Package.csproj" />
+  <Project Path="StructuredLogging.Analyzers.Tests/StructuredLogging.Analyzers.Tests.csproj" />
+  <Project Path="StructuredLogging.Analyzers/StructuredLogging.Analyzers.csproj" />
+  <Project Path="StructuredLogging.Core/StructuredLogging.Core.csproj" />
+</Solution>
