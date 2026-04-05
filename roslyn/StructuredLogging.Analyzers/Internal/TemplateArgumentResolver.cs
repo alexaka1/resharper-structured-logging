@@ -49,7 +49,8 @@ internal static class TemplateArgumentResolver
         }
 
         var commonCandidates = new[] { "messageTemplate", "message", "format", "formatString" };
-        var byName = method.Parameters.FirstOrDefault(p => commonCandidates.Contains(p.Name, StringComparer.Ordinal));
+        var byName = method.Parameters.FirstOrDefault(
+            p => commonCandidates.Any(candidate => string.Equals(candidate, p.Name, StringComparison.Ordinal)));
         return byName?.Name;
     }
 }
