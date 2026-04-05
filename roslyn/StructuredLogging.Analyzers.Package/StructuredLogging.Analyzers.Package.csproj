@@ -21,17 +21,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="$(OutputPath)\StructuredLogging.Analyzers.dll"
-          Condition="Exists('$(OutputPath)\StructuredLogging.Analyzers.dll')"
+    <None Include="..\StructuredLogging.Analyzers\bin\$(Configuration)\netstandard2.0\StructuredLogging.Analyzers.dll"
+          Condition="Exists('..\StructuredLogging.Analyzers\bin\$(Configuration)\netstandard2.0\StructuredLogging.Analyzers.dll')"
           Pack="true"
           PackagePath="analyzers/dotnet/cs" />
   </ItemGroup>
 
-  <Target Name="CopyAnalyzerToPackageOutput" BeforeTargets="Pack" DependsOnTargets="Build">
-    <MakeDir Directories="$(OutputPath)" />
-    <Copy SourceFiles="..\StructuredLogging.Analyzers\bin\$(Configuration)\netstandard2.0\StructuredLogging.Analyzers.dll"
-          DestinationFolder="$(OutputPath)"
-          SkipUnchangedFiles="true" />
+  <Target Name="BuildAnalyzerProject" BeforeTargets="Pack">
+    <MSBuild Projects="..\StructuredLogging.Analyzers\StructuredLogging.Analyzers.csproj"
+             Targets="Build"
+             Properties="Configuration=$(Configuration)" />
   </Target>
 
 </Project>

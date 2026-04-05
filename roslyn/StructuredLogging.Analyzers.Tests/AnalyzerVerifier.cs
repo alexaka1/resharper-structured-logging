@@ -3,12 +3,13 @@ using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Diagnostics;
+using Microsoft.CodeAnalysis.Text;
 
 namespace StructuredLogging.Analyzers.Tests;
 
 internal static class AnalyzerVerifier
 {
-    internal static async Task<IReadOnlyList<Diagnostic>> AnalyzeAsync(string source)
+    internal static async Task<IReadOnlyList<Diagnostic>> AnalyzeAsync(string source, params string[] editorConfigLines)
     {
         var syntaxTree = CSharpSyntaxTree.ParseText(source + "\n" + CommonStubs.Source);
 
@@ -28,9 +29,24 @@ internal static class AnalyzerVerifier
 
         var analyzer = new StructuredLoggingAnalyzer();
         var analyzers = ImmutableArray.Create<DiagnosticAnalyzer>(analyzer);
-        var compilationWithAnalyzers = compilation.WithAnalyzers(analyzers);
-        var diagnostics = await compilationWithAnalyzers.GetAnalyzerDiagnosticsAsync();
 
+        var options = editorConfigLines.Length == 0
+            ? new AnalyzerOptions(ImmutableArray<AdditionalText>.Empty)
+            : new AnalyzerOptions(
+                ImmutableArray.Create<AdditionalText>(
+                    new InMemoryAdditionalText("/workspace/.editorconfig", SourceText.From(string.Join("\n", editorConfigLines)))));
+
+        var diagnostics = await compilation.WithAnalyzers(analyzers, options).GetAnalyzerDiagnosticsAsync();
         return diagnostics.OrderBy(d => d.Location.SourceSpan.Start).ToArray();
+    }
+
+    private sealed class InMemoryAdditionalText(string path, SourceText text) : AdditionalText
+    {
+        public override string Path { get; } = path;
+
+        public override SourceText GetText(System.Threading.CancellationToken cancellationToken = default)
+        {
+            return text;
+        }
     }
 }
