@@ -7,7 +7,7 @@
     <IsPackable>true</IsPackable>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageId>StructuredLogging.Analyzers</PackageId>
+    <PackageId>StructuredLogging.Roslyn.Analyzers</PackageId>
     <Version>0.1.0</Version>
     <Authors>StructuredLogging</Authors>
     <Description>Structured logging Roslyn analyzers.</Description>
